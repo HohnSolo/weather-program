@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+    <script>
+        function fetchWeather() {
+            const city = document.getElementById('city-input').value;
+            const apiKey = // Your API key here;
+            const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=imperial`;
+
+            fetch(url)
+            .then(response => response.json())
+            .then(data => {
+                const cityName = data.name;
+                const temperature = data.main.temp;
+                const description = data.weather[0].description;
+
+                document.getElementById('city').innerHTML = cityName;
+                document.getElementById('temperature').innerHTML = temperature + " F";
+                document.getElementById('description').innerHTML = description;
+
+                document.body.dataset.weather = data.weather[0].description;
+            })
+            .catch(error => console.error(error));
+        }
+    </script>
+
+</head>
+<body>
+    <div class="submit">
+        <label for="city-input">Enter City Name:</label>
+        <input type="text" id="city-input">
+        <button onclick="fetchWeather()">Get Weather</button>
+    </div>
+    <div class="display">
+        <h2>Weather for: <span id="city"></span></h2>
+        <p>Temperature: <span id="temperature"></span></p>
+        <p>Description: <span id="description"></span></p>
+    </div>
+</body>
+</html>
